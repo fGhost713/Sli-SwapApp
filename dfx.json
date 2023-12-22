@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "SliSwapApp_backend": {
+      "main": "src/SliSwapApp_backend/main.mo",
+      "type": "motoko"
+    },
+    "SliSwapApp_frontend": {
+      "dependencies": [
+        "SliSwapApp_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/SliSwapApp_frontend/src/index.html"
+      },
+      "source": [
+        "src/SliSwapApp_frontend/assets",
+        "dist/SliSwapApp_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
