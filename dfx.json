@@ -1,7 +1,7 @@
 {
   "canisters": {
     "SliSwapApp_backend": {
-      "main": "src/SliSwapApp_backend/main.mo",
+      "main": "src/SliSwapApp_backend/Canisters/SwapApp.mo",
       "type": "motoko"
     },
     "SliSwapApp_frontend": {
@@ -21,7 +21,7 @@
   "defaults": {
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "mops sources"
     }
   },
   "output_env_file": ".env",

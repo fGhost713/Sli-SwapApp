@@ -1,8 +1,29 @@
 import { SliSwapApp_backend } from "../../declarations/SliSwapApp_backend";
+import {LoginWithStoic} from "../assets/testscript._js"
+
+// function buttonclicked(){
+//   alert('Hello world');
+//   document.getElementById("greeting").innerText = "blabla";
+
+// };
+
+// function LoginWithStoic(){
+// console.log("blabla");
+
+// }
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById("what").addEventListener('click', LoginWithStoic, false);
+  // document.querySelector('button').addEventListener('click', loadSearch, false);
+ }, false)
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  console.log("init");
+  return false;
   const button = e.target.querySelector("button");
+  let buttonName = button.name;
 
   const name = document.getElementById("name").value.toString();
 
@@ -13,7 +34,8 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   button.removeAttribute("disabled");
 
-  document.getElementById("greeting").innerText = greeting;
+  //document.getElementById("greeting").innerText = greeting;
+  document.getElementById("greeting").innerText = buttonName;
 
   return false;
 });
