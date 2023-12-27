@@ -9,6 +9,8 @@
 
 # dfx temporary files
 .dfx/
+.vessel/
+.mops/
 
 # generated files
 src/declarations/
@@ -17,8 +19,13 @@ src/declarations/
 node_modules/
 dist/
 
-#mops
-.mops
 
 # environment variables
 .env
+
+#other files
+*.sh
+**/*.pem
+Cargo.lock
+NUL
+node_modules/.package-lock.json
