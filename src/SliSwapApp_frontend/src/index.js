@@ -23,26 +23,3 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.getElementById("info").addEventListener('click', async function(){ await CommonIdentityProvider.Info()}, false);
   document.getElementById("logout").addEventListener('click', async function(){ await CommonIdentityProvider.Logout()}, false);  
  }, false)
-
-// document.querySelector("form").addEventListener("submit", async (e) => {
-//   e.preventDefault();
-
-//   console.log("init");
-//   return false;
-//   const button = e.target.querySelector("button");
-//   let buttonName = button.name;
-
-//   const name = document.getElementById("name").value.toString();
-
-//   button.setAttribute("disabled", true);
-
-//   // Interact with foo actor, calling the greet method
-//   const greeting = await SliSwapApp_backend.greet(name);
-
-//   button.removeAttribute("disabled");
-
-//   //document.getElementById("greeting").innerText = greeting;
-//   document.getElementById("greeting").innerText = buttonName;
-
-//   return false;
-// });

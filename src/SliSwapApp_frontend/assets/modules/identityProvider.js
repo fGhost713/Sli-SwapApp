@@ -20,7 +20,15 @@ export class IdentiyProvider{
 
     async Init(){  
         console.log("in init from IdentityProvider");
-        let connResult = await this.#_adapter.autoConnect(this.#_model.connectObj);  
+        //let connResult = await this.#_adapter.autoConnect(this.#_model.connectObj);  
+        try{
+            await this.Logout();
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        
         this.publishOnWalletStatusChanged();  
     };
     
