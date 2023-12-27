@@ -13,8 +13,7 @@ async function OnWalletStatusChanged(){
 document.addEventListener('DOMContentLoaded', async function() {
     
   await CommonIdentityProvider.Init();
-  //Plug wallet is sending this event in case the actual account was switched in plug-wallet tool.
-  window.addEventListener("updateConnection",async () => {OnWalletStatusChanged();},false);
+  
   PubSub.subscribe('WalletStatusChanged', OnWalletStatusChanged);
   //await Artemis_Init();
   document.getElementById("loginPlug").addEventListener('click', async function(){ await CommonIdentityProvider.Login(WalletTypes.plug)}, false);
