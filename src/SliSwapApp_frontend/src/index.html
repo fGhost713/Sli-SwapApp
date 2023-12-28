@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- <script type="text/javascript" src="index.js"></script> -->
+    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>SliSwapApp</title>
     <base href="/" />
     <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />
+    <link type="text/css" rel="stylesheet" href="main.css" />    
+
+    <!-- <link type="text/css" rel="stylesheet" href="/src/SliSwapApp_frontend/assets/main.css" />     -->
+    <!-- <script type="text/javascript" src="/src/SliSwapApp_frontend/src/index.js"></script> -->
+      
   </head>
   <body>
     <main>
       <!-- <img src="logo2.svg" alt="DFINITY logo" /> -->
-      <header>
-        
+      <header>        
         <div class="container">
-          <b><p style="font-size: large;" >SLI Swapp-App</p></b>          
+          <b><p style="font-size: large;" >SLI Swap-App</p></b>          
           <nav>
             <!-- <a href="">Link 1</a>
             <a href="">Link 2</a>
@@ -27,19 +30,17 @@
           <button id="info" type="submit" class="button">info</button>          
           <button id="loginStoic" type="submit" class="button">Login Stoic</button>          
           <button id="loginPlug" type="submit" class="button">Login Plug</button>         
-          <button id="loginDfinity" type="submit" class="button">Login Dfinity</button>                   
+          <button id="loginDfinity" type="submit" class="button">Login Dfinity</button>                           
           </div>
-        </div>
-        
+        </div>        
       </header>
       <br />
       <br />
-
-      <!-- <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button name="button_clickme" id="button_clickme" type="submit">Click Me!</button>               
-      </form>                -->
+      <div id="ContentPage" > 
+        <!-- <div w3-include-html="/src/SliSwapApp_frontend/assets/Pages/ConvertDip20.html"></div> -->
+        <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertDip20.html"></div>  
+      
+      </div>          
       <section id="greeting"></section>
     </main>
     <!-- <button id="what" type="submit" class="button">test</button>       -->

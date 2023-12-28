@@ -15,8 +15,8 @@ export function TokenTypeToCanisterId(TokenType){
     switch(TokenType){
         case TokenTypes.Icp: return "ryjl3-tyaaa-aaaaa-aaaba-cai";
         case TokenTypes.SliDip20: return "zzriv-cqaaa-aaaao-a2gjq-cai";
-        case TokenTypes.GldsDip20: return "7a6j3-uqaaa-aaaao-a2g5q-cai";
-        case TokenTypes.Nft: return "yd2q3-zyaaa-aaaag-qcisq-cai";        
+        case TokenTypes.GldsDip20: return "7a6j3-uqaaa-aaaao-a2g5q-cai";        
+        case TokenTypes.Nft50Slices: return "yd2q3-zyaaa-aaaag-qcisq-cai";        
         default: return "";
     }
 };
