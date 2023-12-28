@@ -6,8 +6,8 @@ import { SubAccount } from "@dfinity/ledger-icp";
 
 
 export class BalanceInformation{
+    RawBalance;
     Balance;
-    BalanceToDisplay;
 };
 
 export class OldTokenActors{
@@ -42,28 +42,33 @@ export class OldTokenActors{
 
     };
 
+    //old Dip 20 sli 
     async GetSliBalance(){
       return await this.#GetDip20BalanceInformation(this.#actorSli);
     };
+    async GetSliFee(){
+        return await this.#GetDip20FeeInformation(this.#actorSli);
+    }
 
+    //old Dip 20 glds
     async GetGldsBalance(){
         return await this.#GetDip20BalanceInformation(this.#actorGlds);
     };
 
-    async GetIcpBalance(){
-        // let account = {
-        //     'owner' : this.#principal,
-        //     'subaccount' : SubAccount.ZERO.toUint8Array(),
-        //   };
+    async GetGldsFee(){
+        return await this.#GetDip20FeeInformation(this.#actorGlds);
+    }
 
+    //icp
+    async GetIcpBalance(){       
         let balanceInfo = new BalanceInformation();
         let balance = await this.#actorIcp.icrc1_balance_of({
             owner : this.#principal,
             subaccount : [],
           }); 
 
-        balanceInfo.Balance = balance;
-        balanceInfo.BalanceToDisplay = Number(balance) / (10**8);
+        balanceInfo.RawBalance = balance;
+        balanceInfo.Balance = Number(balance) / (10**8);
         return balanceInfo;
     };
 
@@ -71,9 +76,17 @@ export class OldTokenActors{
     async #GetDip20BalanceInformation(actorToUse){
         let balanceInfo = new BalanceInformation();
         let balance = await actorToUse.balanceOf(this.#principal); 
-        balanceInfo.Balance = balance;
-        balanceInfo.BalanceToDisplay = Number(balance) / (10**8);
+        balanceInfo.RawBalance = balance;
+        balanceInfo.Balance = Number(balance) / (10**8);
         return balanceInfo;
+    };
+
+    async #GetDip20FeeInformation(actorToUse){
+        
+        var fee = await actorToUse.getTokenFee(); 
+        
+        fee = Number(fee) / (10**8);
+        return fee;
     };
 
     async #Get_Sli_Dip20_Actor(provider){

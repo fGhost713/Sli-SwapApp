@@ -26,22 +26,24 @@ export class WalletInfo{
     Wallet_AccountPrincipal;
     
     //old tokens and nft
-    Balance_SliDip20;
-    DisplayBalance_SliDip20;
+    SliDip20_RawBalance;
+    SliDip20_Balance;
+    SliDip20_Fee;
 
-    Balance_GldsDip20;
-    DisplayBalance_GldsDip20;
+    GldsDip20_RawBalance;
+    GldsDip20_Balance;
+    GldsDip20_Fee;
 
-    Balance_Sli_Nfts;
-    DisplayBalance_Sli_Nfts;
+    Sli_Nfts_RawBalance;
+    Sli_Nfts_Balance;
                 
     //New token
-    Balance_Sli_ICRC1;
-    DisplayBalance_Sli_ICRC1;
+    Sli_ICRC1_RawBalance;
+    Sli_ICRC1_Balance;
 
     //Icp
-    Balance_Icp;
-    DisplayBalance_Icp;
+    Icp_RawBalance;
+    Icp_Balance;
 
     constructor()
     {
@@ -55,17 +57,17 @@ export class WalletInfo{
         this.Wallet_AccountPrincipalText = "";    
         this.Wallet_AccountPrincipal = "";   
 
-        this.Balance_SliDip20 = 0.0;
-        this.Balance_GldsDip20 = 0.0;
-        this.Balance_Sli_Nfts = 0.0;            
-        this.Balance_Icp = 0.0;
-        this.Balance_Sli_ICRC1 = 0.0;
+        this.SliDip20_RawBalance = 0.0;
+        this.GldsDip20_RawBalance = 0.0;
+        this.Sli_Nfts_RawBalance = 0.0;            
+        this.Icp_RawBalance = 0.0;
+        this.Sli_ICRC1_RawBalance = 0.0;
 
-        this.DisplayBalance_SliDip20 = 0.0;
-        this.DisplayBalance_GldsDip20 = 0.0;
-        this.DisplayBalance_Sli_Nfts = 0.0;            
-        this.DisplayBalance_Icp = 0.0;
-        this.DisplayBalance_Sli_ICRC1 = 0.0;
+        this.SliDip20_Balance = 0.0;
+        this.GldsDip20_Balance = 0.0;
+        this.Sli_Nfts_Balance = 0.0;            
+        this.Icp_Balance = 0.0;
+        this.Sli_ICRC1_Balance = 0.0;
     };
 };
 
@@ -90,7 +92,8 @@ export const Dip20Interface = ({IDL}) =>{
     'balanceOf' : IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
     'transfer' : IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
     'name' : IDL.Func([], [IDL.Text], ['query']),
-    'totalSupply' : IDL.Func([], [IDL.Nat], ['query'])
+    'totalSupply' : IDL.Func([], [IDL.Nat], ['query']),
+    'getTokenFee' : IDL.Func([], [IDL.Nat], ['query']),
     });
 };
 
@@ -101,7 +104,7 @@ export const IcpInterface = ({IDL}) =>{
       });
     return IDL.Service({
     'icrc1_balance_of' : IDL.Func([Account], [IDL.Nat], ['query']),    
-    'icrc1_name' : IDL.Func([], [IDL.Text], ['query'])    
+    'icrc1_name' : IDL.Func([], [IDL.Text], ['query'])        
     });
 };
 

@@ -78,16 +78,18 @@ export class IdentiyProvider{
 
 
             var balance = await oldTokenActor.GetSliBalance();
-            this.WalletInfo.Balance_SliDip20 = balance.Balance;
-            this.WalletInfo.DisplayBalance_SliDip20 = balance.BalanceToDisplay;
-
+            this.WalletInfo.SliDip20_RawBalance = balance.RawBalance;
+            this.WalletInfo.SliDip20_Balance = balance.Balance;
+            this.WalletInfo.SliDip20_Fee = await oldTokenActor.GetSliFee();
+                            
             balance = await oldTokenActor.GetGldsBalance();
-            this.WalletInfo.Balance_GldsDip20 = balance.Balance;
-            this.WalletInfo.DisplayBalance_GldsDip20 = balance.BalanceToDisplay;
+            this.WalletInfo.GldsDip20_RawBalance = balance.RawBalance;
+            this.WalletInfo.GldsDip20_Balance = balance.Balance;
+            this.WalletInfo.GldsDip20_Fee = await oldTokenActor.GetGldsFee();
 
             balance = await oldTokenActor.GetIcpBalance();
-            this.WalletInfo.Balance_Icp = balance.Balance;
-            this.WalletInfo.DisplayBalance_Icp = balance.BalanceToDisplay;
+            this.WalletInfo.Icp_RawBalance = balance.RawBalance;
+            this.WalletInfo.Icp_Balance = balance.Balance;
 
             this.WalletInfo.Wallet_IsConnected = true;
         

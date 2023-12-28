@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>SliSwapApp</title>
-    <base href="/" />
-    <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />    
 
-    <!-- <link type="text/css" rel="stylesheet" href="/src/SliSwapApp_frontend/assets/main.css" />     -->
-    <!-- <script type="text/javascript" src="/src/SliSwapApp_frontend/src/index.js"></script> -->
-      
-  </head>
-  <body>
-    <main>
-      <!-- <img src="logo2.svg" alt="DFINITY logo" /> -->
-      <header>        
-        <div class="container">
-          <b><p style="font-size: large;" >SLI Swap-App</p></b>          
-          <nav>
-            <!-- <a href="">Link 1</a>
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>SliSwapApp</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+
+  <link type="text/css" rel="stylesheet" href="/src/SliSwapApp_frontend/assets/main.css" />
+  <!-- <script type="text/javascript" src="/src/SliSwapApp_frontend/src/index.js"></script> -->
+
+</head>
+
+<body>
+  <main>
+    <!-- <img src="logo2.svg" alt="DFINITY logo" /> -->
+    <header>
+      <div class="container">
+        <b>
+          <p style="font-size: large;">SLI Swap-App</p>
+        </b>
+        <nav>
+          <!-- <a href="">Link 1</a>
             <a href="">Link 2</a>
             <a href="">Link 3</a>
             <a href="">Link 4</a> -->
-          </nav>
-          <div style="align-content: flex-end;">
-          <button id="logout" type="submit" class="button" style="margin-left: 55px;margin-right: 12px;" >Logout</button>          
-          <button id="info" type="submit" class="button">info</button>          
-          <button id="loginStoic" type="submit" class="button">Login Stoic</button>          
-          <button id="loginPlug" type="submit" class="button">Login Plug</button>         
-          <button id="loginDfinity" type="submit" class="button">Login Dfinity</button>                           
-          </div>
-        </div>        
-      </header>
-      <br />
-      <br />
-      <div id="ContentPage" > 
-        <!-- <div w3-include-html="/src/SliSwapApp_frontend/assets/Pages/ConvertDip20.html"></div> -->
-        <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertDip20.html"></div>  
-      
-      </div>          
-      <section id="greeting"></section>
-    </main>
-    <!-- <button id="what" type="submit" class="button">test</button>       -->
-  </body>
+        </nav>
+        <div style="align-content: flex-end;">
+          <div class="dropdown">
+           <button class="dropbtn>">Wallet</button>
+           <div class="dropdown-content">
+            <button id="logout" type="submit" class="button"
+            style="margin-left: 55px;margin-right: 12px;">Logout</button>
+            <button id="info" type="submit" class="button">info</button>
+            <button id="loginStoic" type="submit" class="button">Login Stoic</button>
+            <button id="loginPlug" type="submit" class="button">Login Plug</button>
+            <button id="loginDfinity" type="submit" class="button">Login Dfinity</button>
+           </div>
+          </div>          
+        </div>
+      </div>
+    </header>
+    <br />
+    <br />
+    <div id="ContentPage">
+      <!-- <div w3-include-html="/src/SliSwapApp_frontend/assets/Pages/ConvertDip20.html"></div> -->
+      <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertDip20.html"></div>
+
+    </div>
+    <section id="greeting"></section>
+  </main>
+  <!-- <button id="what" type="submit" class="button">test</button>       -->
+</body>
+
 </html>
