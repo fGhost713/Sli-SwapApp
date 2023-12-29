@@ -3,9 +3,7 @@
 
 export const PubSub = (() => {
     const events = {};
-  
-    let subscribersId = -1;
-  
+        
     function publish(event, data) {
       if (!events[event]) {
         return false;
@@ -18,13 +16,12 @@ export const PubSub = (() => {
       return true;
     }
   
-    function subscribe(event, func) {
+    function subscribe(subscriber_identifier, event, func) {
       if (!events[event]) {
         events[event] = [];
       }
-  
-      subscribersId += 1;
-      const token = subscribersId.toString();
+        
+      const token = subscriber_identifier.toString();
       events[event].push({
         token,
         func,
@@ -32,9 +29,9 @@ export const PubSub = (() => {
       return token;
     }
   
-    function unsubscribe(token) {
+    function unsubscribe(subscriber_identifier) {
       const found = Object.keys(events).some((event) => events[event].some((subscriber, index) => {
-        const areEqual = subscriber.token === token.toString();
+        const areEqual = subscriber.token === subscriber_identifier.toString();
         if (areEqual) {
           events[event].splice(index, 1);
         }

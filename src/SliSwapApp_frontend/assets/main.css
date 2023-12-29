@@ -34,12 +34,15 @@
 
 html {
     font-family: "Montserrat", sans-serif;
+    height: 100%;
 }
 header {
     background-color: #f5ba13;
-    margin: auto -16px;
-    padding: 16px 32px;
+    margin: auto 0px;
+    margin-top: 12px;
+    padding: 8px 32px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 0.6em;  
   }
 
 header h1 {
@@ -49,8 +52,9 @@ header h1 {
   }
 
 swapControl {
-  background-color: hsl(40, 86%, 75%);
-  margin: auto -16px;
+  /* background-color: hsl(40, 86%, 75%); */
+  background-color:  #f5ba13;
+  /* margin: auto -16px; */
   padding: 16px 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   border-radius: 0.8em;
@@ -65,9 +69,12 @@ input {
     font-size: 1.5rem;
 } */
 body {
-    background: #eee;
+  font-family: "Montserrat", sans-serif;  
+    /* background: #eee; */
+    background-color: #f1c480;
     /* background-image: url("https://www.transparenttextures.com/patterns/cubes.png"); */
     padding: 0 16px;
+    height: 100%;
   }
 img {
     max-width: 50vw;
@@ -86,21 +93,18 @@ form {
     align-items: baseline;
 }
 
-button[type="submit"] {
+tr.spaceUnder>td {
+  padding-bottom: 8em;
+}
+
+ 
+
+/* button[type="submit"] {
     padding: 5px 20px;
     margin: 10px auto;
-    float: right;
-}
-
-/* #greeting {
-    margin: 10px auto;
-    padding: 10px 60px;
-    border: 1px solid #222;
-}
-
-#greeting:empty {
-    display: none;
+    float: left;
 } */
+
 
 
 .button-49 {
@@ -128,56 +132,58 @@ button[type="submit"] {
 }
 
 
-/* Dropdown Button */
 .dropbtn {
   background-color: #04AA6D;
   color: white;
-  padding: 16px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 12px;
   border: none;
-  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* The container <div> - needed to position the dropdown content */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
-  /* float: left; */
-  
-  /* margin: 0px 0 0 200px;  */
-  /* margin-right: 150px;
-  padding-right: 350px;
-  display: inline-block;
- 
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-
-  /* display: none; */
+  display: none;   
   position: absolute;
   background-color: #f1f1f1;
-  min-width: 10px;
+  min-width: 120px;
+  overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1; 
-  left:-200px;
-
-  
+  right: 0px;
+  top:45px;    
+  z-index: 1;      
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;  
-  /* text-decoration: none; */
-  /* display: block; */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;  
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown a:hover {background-color: #ddd;}
 
-/* Show the dropdown menu on hover */
-/* .dropdown:hover .dropdown-content {display: block;} */
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.button-dropdownmenu[type="submit"] {
+  float: left;height:35px;width: 160px;
+  margin: 4px;cursor: pointer;border-radius: 8px; background-color: #eba925;
+}
+
+
+.button-dropdownmenu:hover {
+  filter: brightness(1.1);
+  background-color: #eaab2c;
+}
+
+
+

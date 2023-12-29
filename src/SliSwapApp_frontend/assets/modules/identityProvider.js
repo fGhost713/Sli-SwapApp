@@ -23,7 +23,7 @@ export class IdentiyProvider{
         this.#_model = new ModelIdentityProvider();
         this.#_adapter = new Artemis(this.#_model.connectObj);                  
     };
-    
+        
     IsWalletConnected(){
 
         if (this.#_adapter.provider == null || this.#_adapter.provider == false) {
@@ -45,68 +45,72 @@ export class IdentiyProvider{
     async UpdateWalletInformation(){
         this.WalletInfo.Reset();
         
-        if (this.IsWalletConnected() == false) {
-            return;
-        }
-
-        let connectedWalletInfo = this.#_adapter?.connectedWalletInfo;
-        if (connectedWalletInfo !=null && connectedWalletInfo !=false){
-            
-            switch(connectedWalletInfo.id){
-                case 'plug': this.WalletInfo.Wallet_Type = WalletTypes.plug;
-                    break;
-                case 'stoic': this.WalletInfo.Wallet_Type = WalletTypes.stoic;
-                    break;
-                case 'dfinity': this.WalletInfo.Wallet_Type = WalletTypes.dfinity;
-                    break;
-                default: return;
+        try
+        {
+            if (this.IsWalletConnected() == false) {
+                return;
             }
-            let principalText = this.#_adapter?.principalId;
-            let principal = Principal.fromText(principalText);            
 
-            this.WalletInfo.Wallet_Name = connectedWalletInfo.name;
-            this.WalletInfo.Wallet_AccountPrincipalText = principalText;
-            this.WalletInfo.Wallet_AccountPrincipal = principal;
-            this.WalletInfo.Balance_Icp =  this.#_adapter?.balance;
-            this.Wallet_IsConnected = true;
-            let provider =  this.#_adapter?.provider;
+            let connectedWalletInfo = this.#_adapter?.connectedWalletInfo;
+            if (connectedWalletInfo !=null && connectedWalletInfo !=false){
+                
+                switch(connectedWalletInfo.id){
+                    case 'plug': this.WalletInfo.Wallet_Type = WalletTypes.plug;
+                        break;
+                    case 'stoic': this.WalletInfo.Wallet_Type = WalletTypes.stoic;
+                        break;
+                    case 'dfinity': this.WalletInfo.Wallet_Type = WalletTypes.dfinity;
+                        break;
+                    default: return;
+                }
+                let principalText = this.#_adapter?.principalId;
+                let principal = Principal.fromText(principalText);            
+
+                this.WalletInfo.Wallet_Name = connectedWalletInfo.name;
+                this.WalletInfo.Wallet_AccountPrincipalText = principalText;
+                this.WalletInfo.Wallet_AccountPrincipal = principal;
+                this.WalletInfo.Balance_Icp =  this.#_adapter?.balance;
+                this.Wallet_IsConnected = true;
+                let provider =  this.#_adapter?.provider;
+                                    
+                let oldTokenActor = new OldTokenActors(provider, principal);
+                await oldTokenActor.init();
+
+                //let resultBla = await oldTokenActor.GetNftBalance();
+
+
+                var balance = await oldTokenActor.GetSliBalance();
+                this.WalletInfo.SliDip20_RawBalance = balance.RawBalance;
+                this.WalletInfo.SliDip20_Balance = balance.Balance;
+                this.WalletInfo.SliDip20_Fee = await oldTokenActor.GetSliFee();
                                 
-            let oldTokenActor = new OldTokenActors(provider, principal);
-            await oldTokenActor.init();
+                balance = await oldTokenActor.GetGldsBalance();
+                this.WalletInfo.GldsDip20_RawBalance = balance.RawBalance;
+                this.WalletInfo.GldsDip20_Balance = balance.Balance;
+                this.WalletInfo.GldsDip20_Fee = await oldTokenActor.GetGldsFee();
 
-            //let resultBla = await oldTokenActor.GetNftBalance();
+                balance = await oldTokenActor.GetIcpBalance();
+                this.WalletInfo.Icp_RawBalance = balance.RawBalance;
+                this.WalletInfo.Icp_Balance = balance.Balance;
 
+                this.WalletInfo.Wallet_IsConnected = true;
+            
 
-            var balance = await oldTokenActor.GetSliBalance();
-            this.WalletInfo.SliDip20_RawBalance = balance.RawBalance;
-            this.WalletInfo.SliDip20_Balance = balance.Balance;
-            this.WalletInfo.SliDip20_Fee = await oldTokenActor.GetSliFee();
-                            
-            balance = await oldTokenActor.GetGldsBalance();
-            this.WalletInfo.GldsDip20_RawBalance = balance.RawBalance;
-            this.WalletInfo.GldsDip20_Balance = balance.Balance;
-            this.WalletInfo.GldsDip20_Fee = await oldTokenActor.GetGldsFee();
+            } else{
+                return;
+            };
+        } catch(error){
+            
+        }
+        finally{
 
-            balance = await oldTokenActor.GetIcpBalance();
-            this.WalletInfo.Icp_RawBalance = balance.RawBalance;
-            this.WalletInfo.Icp_Balance = balance.Balance;
-
-            this.WalletInfo.Wallet_IsConnected = true;
-        
-
-        } else{
-            return;
+            console.log("publish wallet status cheanged");
+            PubSub.publish('WalletStatusChanged', null);
         };
         console.log("wallet info:");
         console.log(this.WalletInfo);
     };
-
-    //Publish the event that the wallet status might be changed. (So update of balance, etc.., might be needed)
-    async publishOnWalletStatusChanged(){
-        await this.UpdateWalletInformation();
-        PubSub.publish('WalletStatusChanged', null);
-    };
-
+   
     //This method is called when user identiy (inside plug wallet) is switched 
     async OnPlugUserIdentitySwitched()
     {
@@ -129,7 +133,7 @@ export class IdentiyProvider{
             console.log(error);
         }        
         this.#_init_done = true;
-        this.publishOnWalletStatusChanged();  
+        
     };
     
     async Login(walletType){
@@ -160,7 +164,7 @@ export class IdentiyProvider{
             if (walletType == WalletTypes.plug){
                 this.#_plugWalletConnected = true;
             };        
-            this.publishOnWalletStatusChanged(); 
+            this.UpdateWalletInformation(); 
         }
         catch(error){
             console.log(error);
@@ -201,9 +205,10 @@ export class IdentiyProvider{
         }
         finally{
             this.#_inside_logout = false;
+            await this.UpdateWalletInformation(); 
         }
 
-        await this.UpdateWalletInformation();        
+               
     };
 
     async Info(){
