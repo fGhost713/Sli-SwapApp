@@ -186,4 +186,19 @@ tr.spaceUnder>td {
 }
 
 
+.button-navigation[type="submit"]{
+
+  border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.button-navigation:hover {
+  filter: brightness(1.1);
+  background-color:rgb(234, 175, 59);
+}
+
+
+
+
 

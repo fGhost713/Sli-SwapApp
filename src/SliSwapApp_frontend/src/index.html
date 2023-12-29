@@ -84,39 +84,35 @@
       <td style="height: 100%;background-color: aqua;width: 100px;">
         <div style="min-height: 600px;background-color: #f5ba13;
             box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);padding: 12px;
-            font-size: 0.7em;height: 100%;width: 100px;
+            font-size: 0.7em;height: 100%;width: 200px;
             ">
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
-          hello </br>
+          
+          <button  
+          type="submit" class="button-navigation" id="NavigateToStartPage">Start Page</button>
+
+          <button style="border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;" 
+          type="submit" class="button-navigation" id="NavigateConvertSli">Convert 'Sli Dip20 tokens'</button>
+
+          <button style="border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;" 
+          type="submit" class="button-navigation" id="NavigateToConvertGlds">Convert 'Glds Dip20 tokens'</button>
+
+          <button style="border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;"
+           type="submit" class="button-navigation" id="NavigateToConvertNft" >Convert '50 Slices Nft'</button>
+
+          <button style="border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;"
+           type="submit" class="button-navigation"id="NavigateToShowHistoryTransactions" >History of Swap-transactions</button>
+
+          
         </div>
       </td>
-      <td style="vertical-align: top; padding-left: 22px;" >
-        <!-- <div id="ContentPage" style="margin-left: 150px; "> -->
-          <!-- <div style="min-height: 300px;min-width: 120px;background-color: #f5ba13;
-          box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);border-radius: 0.4em;padding: 12px;
-          font-size: 0.7em;height: 100%; width: 55px;
-          ">
-            hello
-          </div> -->
-    
-          <!-- <div w3-include-html="/src/SliSwapApp_frontend/assets/Pages/ConvertDip20.html"></div> -->
-          <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertDip20.html"></div>
-
-
-
-        <!-- </div> -->
+      <td style="vertical-align: top; padding-left: 22px;" >                      
+          <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertSliDip20/ConvertSliDip20.html"></div>
+          <div mainContentPageId="PageConvertGldsDip20" html-source="/Pages/ConvertGldsDip20/ConvertGldsDip20.html"></div>
+          <div mainContentPageId="PageStartPage" html-source="/Pages/StartPage/StartPage.html"></div>        
       </td>
     </table>
     
-  </main>
-  <!-- <button id="what" type="submit" class="button">test</button>       -->
+  </main>  
 </body>
 
 </html>

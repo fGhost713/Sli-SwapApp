@@ -103,23 +103,18 @@ export class IdentiyProvider{
             
         }
         finally{
-
-            console.log("publish wallet status cheanged");
-            PubSub.publish('WalletStatusChanged', null);
-        };
-        console.log("wallet info:");
-        console.log(this.WalletInfo);
+                        
+            PubSub.publish('WalletStatusChanged', null);            
+        };        
     };
    
     //This method is called when user identiy (inside plug wallet) is switched 
     async OnPlugUserIdentitySwitched()
-    {
-        console.log("Inside OnPlugUserIdentitySwitched");
+    {        
         await this.Login(WalletTypes.plug);        
     }
 
-    async Init(){  
-        console.log("in init from IdentityProvider");        
+    async Init(){                  
         this.WalletInfo = new WalletInfo();
         
         //Plug wallet is sending this event when user-identity is switched 

@@ -31,14 +31,14 @@ export const PubSub = (() => {
   
     function unsubscribe(subscriber_identifier) {
       const found = Object.keys(events).some((event) => events[event].some((subscriber, index) => {
-        const areEqual = subscriber.token === subscriber_identifier.toString();
+        const areEqual = subscriber?.token === subscriber_identifier.toString();
         if (areEqual) {
           events[event].splice(index, 1);
         }
         return areEqual;
       }));
   
-      return found ? token : null;
+      // return found ? token : null;
     }
   
     return {

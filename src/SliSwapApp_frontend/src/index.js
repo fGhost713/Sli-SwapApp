@@ -10,8 +10,7 @@ async function OnWalletStatusChanged(args){
 
    let walletInfo = CommonIdentityProvider.WalletInfo;
    let labelInfo = document.getElementById("labelWalletConnectionStatus");
-   console.log(labelInfo);
-    
+      
    if (walletInfo.Wallet_IsConnected == false){
           labelInfo.innerHTML = "Status: Not connected to a wallet"      
    }
@@ -24,10 +23,8 @@ async function OnWalletStatusChanged(args){
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function OnToggleWalletDropDownMenu(){
-  console.log("clicked");
-  document.getElementById("dropDownWalletMenu").classList.toggle("show");
-  //document.getElementById("dropDownWalletMenu").style.display = 'block';
+function OnToggleWalletDropDownMenu(){ 
+  document.getElementById("dropDownWalletMenu").classList.toggle("show");  
 }
 
 //Close the dropdown menu if the user clicks outside of it
@@ -48,8 +45,9 @@ document.addEventListener('DOMContentLoaded', async function() {
       
   PubSub.subscribe('index_js_WalletStatusChanged', 'WalletStatusChanged', OnWalletStatusChanged);
   await CommonIdentityProvider.Init();
-  DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertSliDip20);      
-        
+  //DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertSliDip20);      
+  DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageStartPage);      
+  
   //buttonDepositNow
   // document.getElementById("buttonDepositNow").addEventListener('click', async function(){ alert('hello');}, false);
   // document.getElementById("buttonDepositNow").addEventListener('click', ()=> {blabla();}, false);
@@ -58,6 +56,22 @@ document.addEventListener('DOMContentLoaded', async function() {
   //   DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertSliDip20);      
   //   //convertDip20_init();
   // }, false);
+
+  document.getElementById("NavigateToStartPage").addEventListener('click', 
+  function(){ DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageStartPage);}, false);
+
+  document.getElementById("NavigateConvertSli").addEventListener('click', function(){ 
+    DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertSliDip20);}, false);
+
+  document.getElementById("NavigateToConvertGlds").addEventListener('click', function(){
+     DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertGldsDip20);}, false);
+
+  document.getElementById("NavigateToConvertNft").addEventListener('click', function(){ 
+    DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageConvertNft);}, false);
+
+  document.getElementById("NavigateToShowHistoryTransactions").addEventListener('click', 
+  function(){ DynamicPageContentLoad(pageIds.mainContentPageId, pageIdValues.PageTransactionsHistory);}, false);
+
 
   document.getElementById("buttonWalletDropDown").addEventListener('click', function(){ OnToggleWalletDropDownMenu();}, false);
   document.getElementById("loginPlug").addEventListener('click', async function(){ await CommonIdentityProvider.Login(WalletTypes.plug)}, false);
