@@ -1,24 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>SliSwapApp</title>
-    <base href="/" />
-    <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />
-  </head>
-  <body>
-    <main>
-      <img src="logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting"></section>
-    </main>
-  </body>
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SliSwapApp</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+
+  <!-- <link type="text/css" rel="stylesheet" href="/src/SliSwapApp_frontend/assets/main.css" /> -->
+  <!-- <script type="text/javascript" src="/src/SliSwapApp_frontend/src/index.js"></script> -->
+
+</head>
+
+<body>
+  <main>
+    <!-- <img src="logo2.svg" alt="DFINITY logo" /> -->
+    <header>
+      <div class="container">
+        <b>
+          <p style="font-size: large;min-width: 150;">SLI Swap-App</p>
+        </b>
+        <nav>
+          <!-- <a href="">Link 1</a>
+            <a href="">Link 2</a>
+            <a href="">Link 3</a>
+            <a href="">Link 4</a> -->
+        </nav>
+        <div style="align-content: flex-end;">
+          <label id="labelWalletConnectionStatus" style="margin-right: 22px;font-size: 0.8em;
+          color: rgb(11, 11, 121);
+          " ></label>
+          <div class="dropdown">
+            <button id="buttonWalletDropDown" style="border-radius: 6px;" type="submit" class="dropbtn">Wallet Connection</button>
+      
+            <div id="dropDownWalletMenu" class="dropdown-content" style="padding: 3px;margin-right: -2px;
+            background-color: hsl(40, 86%, 75%);box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);border-radius: 0.8em;"            
+            >
+                                       
+              <table>
+                <tr class="spaceUnder">
+
+                  <button id="loginStoic" type="submit" class="button-dropdownmenu" >
+                    <img src="appIcons/stoic.png" width="22px" height="22px"
+                      style="float: left;margin-left: 4px;" />
+                    <div style="margin: auto;text-align: center;margin-top: 2px;">Connect with Stoic</div>
+                  </button>
+                </tr>
+
+                <tr class="spaceUnder">
+                  <button id="loginPlug" type="submit" class="button-dropdownmenu">
+                    <img src="appIcons/plug.jpg" width="22px" height="22px"
+                      style="float: left;margin-left: 4px;" />
+                    <div style="margin: auto;text-align: center;margin-top: 2px;">Connect with Plug</div>
+                  </button>
+                </tr>
+
+                <tr>
+                  <button id="loginDfinity" type="submit" class="button-dropdownmenu" >
+                    <img src="appIcons/dfinity.svg" width="22px" height="22px"
+                      style="float: left;margin-left: 4px;" />
+                    <div style="margin: auto;text-align: center;margin-top: 2px;">Connect with Dfinity</div>
+                  </button>
+                </tr>
+
+                <tr>
+                  <button id="logout" type="submit" class="button-dropdownmenu" >
+                  
+                    <div style="margin: auto;text-align: right;margin-right: 10px;  margin-top: 0px;">Log out</div>
+                  </button>
+                </tr>
+              </table>            
+            </div>         
+          </div>          
+        </div>
+      </div>
+    </header>   
+    <table style="margin-left: -6px;margin-top:12px;width: 100%;height:100%">
+      <td style="height: 100%;background-color: aqua;width: 100px;">
+        <div style="min-height: 600px;background-color: #f5ba13;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);padding: 12px;
+            font-size: 0.7em;height: 100%;width: 200px;
+            ">
+          
+          <button  type="submit" class="button-navigation" id="NavigateToStartPage">Start Page</button>
+
+          <button type="submit" class="button-navigation" id="NavigateConvertSli">Convert 'Sli Dip20 tokens'</button>
+
+          <button type="submit" class="button-navigation" id="NavigateToConvertGlds">Convert 'Glds Dip20 tokens'</button>
+          
+          <button type="submit" class="button-navigation"id="NavigateToShowHistoryTransactions" >History of Swap-transactions</button>
+
+           <button type="submit" class="button-navigation"id="NavigateToAdminSection"
+            style="display: none;"
+           >Admin section</button>          
+        </div>
+      </td>
+      <td style="vertical-align: top; padding-left: 22px;" >                      
+          <div mainContentPageId="PageConvertSliDip20" html-source="/Pages/ConvertSliDip20/ConvertSliDip20.html"></div>
+          <div mainContentPageId="PageConvertGldsDip20" html-source="/Pages/ConvertGldsDip20/ConvertGldsDip20.html"></div>
+          <div mainContentPageId="PageStartPage" html-source="/Pages/StartPage/StartPage.html"></div>        
+      </td>
+    </table>
+    
+  </main>  
+</body>
+
 </html>
