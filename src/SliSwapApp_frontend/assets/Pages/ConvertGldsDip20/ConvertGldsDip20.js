@@ -1,27 +1,22 @@
 import { CommonIdentityProvider, WalletInfo} from "../../modules/Types/CommonTypes";
 import { PubSub } from "../../modules/Utils/PubSub";
 
-var wasInitialized = false;
-
 function RelatedHtmlPageExist(){
   return document.getElementById('walletAmountOldGldsDip20') != null;
 };
 
+//TODO: make this work
 async function deposit_oldGldsTokens(){
-    
-    console.log("deposit_oldGldsTokens");
+        
     return;
     var availableAmount = document.getElementById('walletAmountOldGldsDip20').valueAsNumber;  
     var availableAmount1 = CommonIdentityProvider.WalletInfo.DisplayBalance_SliDip20;
-    var amountToDeposit = document.getElementById('depositAmountOldGldsDip20').valueAsNumber; 
-    //availableAmount = Math.max(availableAmount, 0)
-    //amountToDeposit = Math.max(amountToDeposit, 0);
-
+    var amountToDeposit = document.getElementById('depositAmountOldGldsDip20').valueAsNumber;     
     alert(availableAmount.toString() + " - " + availableAmount1.toString() + " - " + amountToDeposit.toString());
 }
 
-async function OnWalletStatusChanged(args){
-     
+async function IdentityChanged(args){
+         
     if (RelatedHtmlPageExist() == false){
         return;
     }
@@ -40,19 +35,15 @@ async function OnWalletStatusChanged(args){
  };
 
 export const convertGldsDip20_init =  function initConvertGldsDip20(){
-        
-    //if (wasInitialized == false){
-        PubSub.unsubscribe('ConvertGldsDip20_js_WalletStatusChanged','WalletStatusChanged', OnWalletStatusChanged);
-        PubSub.subscribe('ConvertGldsDip20_js_WalletStatusChanged','WalletStatusChanged', OnWalletStatusChanged);
+         
+    PubSub.unsubscribe('ConvertGldsDip20_js_UserIdentityChanged','UserIdentityChanged', IdentityChanged);
+    PubSub.subscribe('ConvertGldsDip20_js_UserIdentityChanged','UserIdentityChanged', IdentityChanged);
 
-        let element = document.getElementById('buttonDepositNowOldGldsDip20');        
-        if (element != null){
-            element.removeEventListener('click', async ()=> {await deposit_oldGldsTokens();}, true);
-            // console.log("add");
-            element.addEventListener('click', async ()=> {await deposit_oldGldsTokens();}, true);
-        }
-    //}
-    wasInitialized = true;
-    OnWalletStatusChanged("");
+    let element = document.getElementById('buttonDepositNowOldGldsDip20');        
+    if (element != null){
+        element.removeEventListener('click', async ()=> {await deposit_oldGldsTokens();}, true);        
+        element.addEventListener('click', async ()=> {await deposit_oldGldsTokens();}, true);
+    }   
+    IdentityChanged("");
   };
 

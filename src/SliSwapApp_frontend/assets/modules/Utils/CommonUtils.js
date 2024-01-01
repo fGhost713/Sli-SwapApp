@@ -11,6 +11,7 @@ export function createEnum(values) {
 
 
   //Convert TokenType-Enum to corresponding canister-id
+
 export function TokenTypeToCanisterId(TokenType){
     switch(TokenType){
         case TokenTypes.Icp: return "ryjl3-tyaaa-aaaaa-aaaba-cai";
@@ -20,4 +21,7 @@ export function TokenTypeToCanisterId(TokenType){
         default: return "";
     }
 };
+
+
+
 

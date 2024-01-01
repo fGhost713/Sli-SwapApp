@@ -27,19 +27,27 @@ export class OldTokenActors{
     }
 
     async init(){
-        this.#actorSli = await this.#Get_Sli_Dip20_Actor(this.#provider);
-        this.#actorGlds = await this.#Get_Glds_Dip20_Actor(this.#provider);   
-        this.#actorIcp = await this.#Get_Icp_Actor(this.#provider);
-        this.#actorNft = await this.#Get_Nft_Actor(this.#provider);
+
+        const responses = await Promise.all([
+            this.#Get_Sli_Dip20_Actor(this.#provider),
+            this.#Get_Glds_Dip20_Actor(this.#provider),
+            this.#Get_Icp_Actor(this.#provider),
+            this.#Get_Nft_Actor(this.#provider)
+           ]);
+
+
+        this.#actorSli = responses[0];
+        this.#actorGlds = responses[1];
+        this.#actorIcp = responses[2];
+        this.#actorNft = responses[3];
+              
     };
 
-    async GetNftBalance(){
-        console.log("nft balance");
-        //let result = await this.#actorNft.supply("");
-        let result = await this.#actorNft.balance("");
-        console.log(result);
+    async GetNftBalance(){        
+        //TODO: make this work
+        return;
+        let result = await this.#actorNft.balance("");        
         return result;
-
     };
 
     //old Dip 20 sli 
@@ -107,14 +115,9 @@ export class OldTokenActors{
         return actor;
     };
 
-    async #Get_Nft_Actor(provider){
-        console.log("Get_Nft_Actor");
-        let canisterId =  TokenTypeToCanisterId(TokenTypes.Nft50Slices);                        
-        console.log("canisterId");
-        console.log(canisterId);
-        let actor = await provider.createActor({ canisterId: canisterId, interfaceFactory: NftInterface }); 
-        console.log(actor);
-
+    async #Get_Nft_Actor(provider){        
+        let canisterId =  TokenTypeToCanisterId(TokenTypes.Nft50Slices);                                
+        let actor = await provider.createActor({ canisterId: canisterId, interfaceFactory: NftInterface });         
         return actor;
     };
 

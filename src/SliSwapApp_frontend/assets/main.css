@@ -159,7 +159,8 @@ tr.spaceUnder>td {
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   right: 0px;
   top:45px;    
-  z-index: 1;      
+  z-index: 1;   
+  overflow: hidden; /* Hide scrollbars */
 }
 
 .dropdown-content a {
@@ -176,7 +177,8 @@ tr.spaceUnder>td {
 
 .button-dropdownmenu[type="submit"] {
   float: left;height:35px;width: 160px;
-  margin: 4px;cursor: pointer;border-radius: 8px; background-color: #eba925;
+  margin: 4px;cursor: pointer;border-radius:6px; background-color: #eba925;
+  border-color: #e3a20c;
 }
 
 
@@ -189,13 +191,11 @@ tr.spaceUnder>td {
 .button-navigation[type="submit"]{
 
   border-radius: 6px;background-color: rgb(231, 155, 56);margin-bottom: 16px;width: 180px;
-  height: 50px;
-  cursor: pointer;
+  height: 50px;cursor: pointer;border-color: #161817;
 }
 
 .button-navigation:hover {
-  filter: brightness(1.1);
-  background-color:rgb(234, 175, 59);
+  filter: brightness(1.1);background-color:rgb(234, 175, 59);
 }
 
 

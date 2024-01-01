@@ -1,5 +1,6 @@
 import {createEnum} from "../Utils/CommonUtils";
 import {IdentiyProvider} from "../identityProvider";
+import {SwapAppActor} from "../SubModules/SwapAppActor";
 
 
 export const TokenTypes = createEnum(['NotConnected','Icp','SliDip20', 'GldsDip20', 'Nft50Slices']);
@@ -581,5 +582,20 @@ export const NftInterface =  ({ IDL }) => {
     });
   };
 
-
+  export const SwapAppActorInterface = ({ IDL }) => {
+    const UserRole = IDL.Variant({
+      'Anonymous' : IDL.Null,
+      'NormalUser' : IDL.Null,
+      'Admin' : IDL.Null,
+      'Owner' : IDL.Null,
+    });
+    const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text });
+    return IDL.Service({
+      'GetSwapAppPrincipalText' : IDL.Func([], [IDL.Text], []),
+      'GetUserRole' : IDL.Func([], [UserRole], []),
+      'SetTargetICRC1TokenCanisterId' : IDL.Func([IDL.Text], [Result], []),
+    });
+  };
+  
   export const CommonIdentityProvider = new IdentiyProvider();
+  export const SwapAppActorProvider = new SwapAppActor();

@@ -1,27 +1,31 @@
 import { Artemis } from 'artemis-web3-adapter';
 import { PubSub } from "./Utils/PubSub";
-import { ModelIdentityProvider } from "./Models/ModelIdentityProvider";
+//import { ModelIdentityProvider } from "./Models/ModelIdentityProvider";
 import { WalletTypes, WalletInfo, Dip20Interface, TokenTypes } from './Types/CommonTypes';
 import { Principal } from '@dfinity/principal';
 import { OldTokenActors,BalanceInformation } from "./SubModules/OldTokenActors"
+import { SliSwapApp_backend } from "../../../declarations/SliSwapApp_backend";
+import { TokenTypeToCanisterId } from "../modules/Utils/CommonUtils";
 
 export class IdentiyProvider{
 
     //private fields
-    #_model;
+    //#_model;
     #_adapter;
     #_plugWalletConnected;
     #_init_done;
     #_inside_login;
     #_inside_logout;
+    
 
     //public fields
     WalletInfo;
+    SwapAppPrincipalText;
 
     constructor(){
+        this.WalletInfo = new WalletInfo();
         this.#_init_done = false;
-        this.#_model = new ModelIdentityProvider();
-        this.#_adapter = new Artemis(this.#_model.connectObj);                  
+        //this.#_model = new ModelIdentityProvider();                    
     };
         
     IsWalletConnected(){
@@ -42,16 +46,21 @@ export class IdentiyProvider{
         return true;
     };
 
-    async UpdateWalletInformation(){
+    async GetProvider(){
+        return this.#_adapter?.provider;
+    };
+
+    //SwapAppActor
+    async #UserIdentityChanged(){
         this.WalletInfo.Reset();
         
         try
-        {
+        {            
             if (this.IsWalletConnected() == false) {
                 return;
             }
-
-            let connectedWalletInfo = this.#_adapter?.connectedWalletInfo;
+            
+            let connectedWalletInfo = this.#_adapter?.connectedWalletInfo;            
             if (connectedWalletInfo !=null && connectedWalletInfo !=false){
                 
                 switch(connectedWalletInfo.id){
@@ -64,34 +73,56 @@ export class IdentiyProvider{
                     default: return;
                 }
                 let principalText = this.#_adapter?.principalId;
-                let principal = Principal.fromText(principalText);            
+                let principal = Principal.fromText(principalText);                            
 
                 this.WalletInfo.Wallet_Name = connectedWalletInfo.name;
                 this.WalletInfo.Wallet_AccountPrincipalText = principalText;
-                this.WalletInfo.Wallet_AccountPrincipal = principal;
-                this.WalletInfo.Balance_Icp =  this.#_adapter?.balance;
-                this.Wallet_IsConnected = true;
+                this.WalletInfo.Wallet_AccountPrincipal = principal;                
                 let provider =  this.#_adapter?.provider;
                                     
                 let oldTokenActor = new OldTokenActors(provider, principal);
                 await oldTokenActor.init();
 
-                //let resultBla = await oldTokenActor.GetNftBalance();
 
-
-                var balance = await oldTokenActor.GetSliBalance();
-                this.WalletInfo.SliDip20_RawBalance = balance.RawBalance;
-                this.WalletInfo.SliDip20_Balance = balance.Balance;
-                this.WalletInfo.SliDip20_Fee = await oldTokenActor.GetSliFee();
+                // let balanceSli = await oldTokenActor.GetSliBalance();
+                // this.WalletInfo.SliDip20_RawBalance = balanceSli.RawBalance;
+                // this.WalletInfo.SliDip20_Balance = balanceSli.Balance;
+                // this.WalletInfo.SliDip20_Fee = await oldTokenActor.GetSliFee();
                                 
-                balance = await oldTokenActor.GetGldsBalance();
-                this.WalletInfo.GldsDip20_RawBalance = balance.RawBalance;
-                this.WalletInfo.GldsDip20_Balance = balance.Balance;
-                this.WalletInfo.GldsDip20_Fee = await oldTokenActor.GetGldsFee();
+                // let balanceGlds = await oldTokenActor.GetGldsBalance();
+                // this.WalletInfo.GldsDip20_RawBalance = balanceGlds.RawBalance;
+                // this.WalletInfo.GldsDip20_Balance = balanceGlds.Balance;
+                // this.WalletInfo.GldsDip20_Fee = await oldTokenActor.GetGldsFee();
 
-                balance = await oldTokenActor.GetIcpBalance();
-                this.WalletInfo.Icp_RawBalance = balance.RawBalance;
-                this.WalletInfo.Icp_Balance = balance.Balance;
+                // let balanceIcp = await oldTokenActor.GetIcpBalance();
+                // this.WalletInfo.Icp_RawBalance = balanceIcp.RawBalance;
+                // this.WalletInfo.Icp_Balance = balanceIcp.Balance;
+
+                // this.WalletInfo.Wallet_IsConnected = true;
+
+                
+                const responses = await Promise.all([
+                    await oldTokenActor.GetSliBalance(),
+                    await oldTokenActor.GetGldsBalance(),
+                    await oldTokenActor.GetIcpBalance(),    
+                    await oldTokenActor.GetSliFee(),
+                    await oldTokenActor.GetGldsFee()                
+                ]);
+
+                 
+                let balanceSli = responses[0];
+                this.WalletInfo.SliDip20_RawBalance = balanceSli.RawBalance;
+                this.WalletInfo.SliDip20_Balance = balanceSli.Balance;
+                this.WalletInfo.SliDip20_Fee = responses[3];
+                                
+                let balanceGlds = responses[1];
+                this.WalletInfo.GldsDip20_RawBalance = balanceGlds.RawBalance;
+                this.WalletInfo.GldsDip20_Balance = balanceGlds.Balance;
+                this.WalletInfo.GldsDip20_Fee = responses[4];
+
+                let balanceIcp = responses[2];
+                this.WalletInfo.Icp_RawBalance = balanceIcp.RawBalance;
+                this.WalletInfo.Icp_Balance = balanceIcp.Balance;
 
                 this.WalletInfo.Wallet_IsConnected = true;
             
@@ -104,7 +135,7 @@ export class IdentiyProvider{
         }
         finally{
                         
-            PubSub.publish('WalletStatusChanged', null);            
+            PubSub.publish('UserIdentityChanged', null);            
         };        
     };
    
@@ -115,8 +146,23 @@ export class IdentiyProvider{
     }
 
     async Init(){                  
-        this.WalletInfo = new WalletInfo();
-        
+                
+
+        this.SwapAppPrincipalText = await SliSwapApp_backend.GetSwapAppPrincipalText();
+                  
+        let connectedObj = { 
+            whitelist: 
+            [
+                TokenTypeToCanisterId(TokenTypes.Icp),TokenTypeToCanisterId(TokenTypes.SliDip20),
+                TokenTypeToCanisterId(TokenTypes.GldsDip20),TokenTypeToCanisterId(TokenTypes.Nft),
+                this.SwapAppPrincipalText
+            ]
+            , host: 'https://icp0.io/'
+        };
+
+        this.#_adapter = new Artemis(connectedObj); 
+
+
         //Plug wallet is sending this event when user-identity is switched 
         window.addEventListener("updateConnection",async () => {this.OnPlugUserIdentitySwitched();},false);       
                         
@@ -155,17 +201,18 @@ export class IdentiyProvider{
                 return;
             }
         
-            await this.#_adapter?.connect(walletName);
+            let result = await this.#_adapter.connect(walletName);
+           
             if (walletType == WalletTypes.plug){
                 this.#_plugWalletConnected = true;
-            };        
-            this.UpdateWalletInformation(); 
+            };                    
         }
         catch(error){
             console.log(error);
         }
         finally{
             this.#_inside_login = false;
+            this.#UserIdentityChanged(); 
         }
     };
 
@@ -178,7 +225,7 @@ export class IdentiyProvider{
         try{
 
             if (this.#_init_done == false){
-                await this.#_adapter?.disconnect();
+                await this.#_adapter.disconnect();
                 return;
             }
 
@@ -192,7 +239,7 @@ export class IdentiyProvider{
 
             }
             else{                
-                await this.#_adapter?.disconnect();                                
+                await this.#_adapter.disconnect();                                
             }            
         }
         catch(error){
@@ -200,47 +247,10 @@ export class IdentiyProvider{
         }
         finally{
             this.#_inside_logout = false;
-            await this.UpdateWalletInformation(); 
+            await this.#UserIdentityChanged(); 
         }
 
                
-    };
-
-    async Info(){
-
-        let connectedWalletInfo = this.#_adapter?.connectedWalletInfo;
-        // console.log("connectedWalletInfo:");
-        // console.log(connectedWalletInfo);
-
-        // console.log("adapter:");
-        // console.log(this.#_adapter);
-
-        console.log("Wallet info:");
-        console.log(this.WalletInfo);
-
-        // console.log("plug");
-        // console.log(window.ic?.plug);
-
-        console.log("IsWalletConnected():");
-        console.log(this.IsWalletConnected());
-
-        return;
-
-        
-        console.log("identity:");
-        let ident = await window.ic?.plug?.agent?._identity;
-        console.log(ident);        
-        console.log("adapter:");
-        console.log(this.#_adapter);
-
-        console.log("principal1:");
-        console.log(this.#_adapter?.principalId);
-
-        console.log("principal2:");
-        let principalInt8Array = await this.#_adapter?.provider?.getPrincipal();
-        let principal2 = Principal.fromUint8Array(principalInt8Array).toText();
-        console.log(principal2);
-
     };
 
 };
